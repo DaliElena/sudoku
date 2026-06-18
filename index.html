@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1a2e" />
+  <title>Судоку</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/board.css" />
+  <link rel="stylesheet" href="css/ui.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Шапка -->
+    <header class="header">
+      <div class="header__left">
+        <span class="header__label">Ошибки</span>
+        <span class="header__value" id="mistakes">0 / 3</span>
+      </div>
+      <h1 class="header__title">Судоку</h1>
+      <div class="header__right">
+        <span class="header__label">Время</span>
+        <span class="header__value" id="timer">00:00</span>
+      </div>
+    </header>
+
+    <!-- Панель сложности -->
+    <div class="difficulty-bar">
+      <button class="difficulty-btn difficulty-btn--active" data-difficulty="easy">Лёгкий</button>
+      <button class="difficulty-btn" data-difficulty="medium">Средний</button>
+      <button class="difficulty-btn" data-difficulty="hard">Сложный</button>
+    </div>
+
+    <!-- Игровое поле -->
+    <main class="board-wrapper">
+      <div class="board" id="board" role="grid" aria-label="Игровое поле судоку">
+        <!-- 81 ячейка — временная статика для проверки вёрстки (заменится JS) -->
+      <div class="cell cell--locked">5</div><div class="cell cell--locked">3</div><div class="cell"></div><div class="cell cell--locked">6</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">9</div><div class="cell cell--locked">8</div>
+      <div class="cell cell--locked">6</div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">1</div><div class="cell cell--locked">9</div><div class="cell cell--locked">5</div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+      <div class="cell"></div><div class="cell cell--locked">9</div><div class="cell cell--locked">8</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">6</div><div class="cell"></div>
+      <div class="cell cell--locked">8</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">6</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">3</div>
+      <div class="cell cell--locked">4</div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">8</div><div class="cell"></div><div class="cell cell--locked">3</div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">1</div>
+      <div class="cell cell--locked">7</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">2</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">6</div>
+      <div class="cell"></div><div class="cell cell--locked">6</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">2</div><div class="cell cell--locked">8</div><div class="cell"></div>
+      <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">4</div><div class="cell cell--locked">1</div><div class="cell cell--locked">9</div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">5</div>
+      <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">8</div><div class="cell"></div><div class="cell"></div><div class="cell cell--locked">7</div><div class="cell cell--locked">9</div>
+      </div>
+    </main>
+
+    <!-- Панель управления -->
+    <div class="controls">
+      <button class="control-btn" id="btn-undo" aria-label="Отменить ход">
+        <span class="control-btn__icon">↩</span>
+        <span class="control-btn__label">Отмена</span>
+      </button>
+      <button class="control-btn" id="btn-erase" aria-label="Стереть">
+        <span class="control-btn__icon">⌫</span>
+        <span class="control-btn__label">Стереть</span>
+      </button>
+      <button class="control-btn control-btn--pencil" id="btn-pencil" aria-label="Режим заметок" aria-pressed="false">
+        <span class="control-btn__icon">✏️</span>
+        <span class="control-btn__label">Заметки</span>
+      </button>
+      <button class="control-btn" id="btn-new" aria-label="Новая игра">
+        <span class="control-btn__icon">⊕</span>
+        <span class="control-btn__label">Новая</span>
+      </button>
+    </div>
+
+    <!-- Цифровая панель -->
+    <div class="numpad" role="group" aria-label="Цифровая панель">
+      <button class="numpad-btn" data-value="1">1</button>
+      <button class="numpad-btn" data-value="2">2</button>
+      <button class="numpad-btn" data-value="3">3</button>
+      <button class="numpad-btn" data-value="4">4</button>
+      <button class="numpad-btn" data-value="5">5</button>
+      <button class="numpad-btn" data-value="6">6</button>
+      <button class="numpad-btn" data-value="7">7</button>
+      <button class="numpad-btn" data-value="8">8</button>
+      <button class="numpad-btn" data-value="9">9</button>
+    </div>
+
+  </div>
+
+  <!-- Скрипты -->
+  <script src="js/generator.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/validator.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/timer.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

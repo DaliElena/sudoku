@@ -1,0 +1,74 @@
+/* ===== CSS Variables ===== */
+:root {
+  /* Colors */
+  --color-bg: #1a1a2e;
+  --color-surface: #16213e;
+  --color-surface-2: #0f3460;
+  --color-primary: #e94560;
+  --color-primary-dim: rgba(233, 69, 96, 0.15);
+  --color-text: #eaeaea;
+  --color-text-muted: #8892a4;
+  --color-locked: #a8b5c8;
+
+  /* Board */
+  --color-cell-bg: #16213e;
+  --color-cell-border: #2a3a5c;
+  --color-cell-border-block: #4a6a9c;
+  --color-cell-selected: #1e3a6e;
+  --color-cell-highlight: #1a2d52;
+  --color-cell-same-value: #1e3060;
+  --color-cell-conflict: rgba(233, 69, 96, 0.25);
+  --color-cell-conflict-border: var(--color-primary);
+
+  /* Typography */
+  --font-size-cell: clamp(16px, 4.5vw, 28px);
+  --font-size-note: clamp(7px, 1.8vw, 11px);
+  --font-size-ui: clamp(13px, 3.5vw, 16px);
+  --font-size-header: clamp(18px, 5vw, 24px);
+
+  /* Spacing */
+  --gap-xs: 4px;
+  --gap-sm: 8px;
+  --gap-md: 12px;
+  --gap-lg: 16px;
+
+  /* Tap target */
+  --tap-min: 44px;
+
+  /* Board size: квадрат, вписанный в экран */
+  --board-size: min(100vw, 100svh - 260px);
+}
+
+/* ===== Reset ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  height: 100%;
+  height: 100svh;
+}
+
+body {
+  height: 100%;
+  height: 100svh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-ui);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+button {
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}

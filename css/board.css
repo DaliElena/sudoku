@@ -1,0 +1,117 @@
+/* ===== Board wrapper ===== */
+.board-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ===== Board grid ===== */
+.board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  width: var(--board-size);
+  height: var(--board-size);
+  border: 2px solid var(--color-cell-border-block);
+  background-color: var(--color-cell-border-block);
+  gap: 0;
+}
+
+/* ===== Cell ===== */
+.cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-cell-bg);
+  border: 1px solid var(--color-cell-border);
+  font-size: var(--font-size-cell);
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color 0.1s;
+
+  /* Толстые границы между блоками 3×3 — правая сторона */
+  &:nth-child(3n):not(:nth-child(9n)) {
+    border-right: 2px solid var(--color-cell-border-block);
+  }
+}
+
+/* Толстые границы между блоками — нижняя сторона (строки 3 и 6) */
+.cell:nth-child(n+19):nth-child(-n+27),
+.cell:nth-child(n+46):nth-child(-n+54) {
+  border-bottom: 2px solid var(--color-cell-border-block);
+}
+
+/* ===== Cell states ===== */
+.cell--locked {
+  color: var(--color-locked);
+  font-weight: 600;
+}
+
+.cell--filled {
+  color: var(--color-primary);
+}
+
+.cell--selected {
+  background-color: var(--color-cell-selected);
+}
+
+.cell--highlight {
+  background-color: var(--color-cell-highlight);
+}
+
+.cell--same-value {
+  background-color: var(--color-cell-same-value);
+}
+
+.cell--conflict {
+  background-color: var(--color-cell-conflict);
+  color: var(--color-primary);
+}
+
+/* ===== Notes grid inside cell ===== */
+.cell__notes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  position: absolute;
+  inset: 1px;
+  padding: 0;
+}
+
+.cell__note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-note);
+  color: var(--color-text-muted);
+  line-height: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.cell__note--active {
+  color: var(--color-primary);
+}
+
+/* ===== Hover — только на устройствах с мышью ===== */
+@media (hover: hover) {
+  .cell:not(.cell--selected):not(.cell--locked):hover {
+    background-color: var(--color-cell-highlight);
+  }
+}
+
+/* ===== Landscape: уменьшаем board-size под высоту ===== */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root {
+    --board-size: min(100svh - 16px, 60vw);
+  }
+
+  .app {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+}

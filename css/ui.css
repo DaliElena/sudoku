@@ -1,0 +1,200 @@
+/* ===== App layout ===== */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0)
+           env(safe-area-inset-bottom, 8px) env(safe-area-inset-left, 0);
+  gap: var(--gap-sm);
+}
+
+/* ===== Header ===== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--gap-sm) var(--gap-md);
+  flex-shrink: 0;
+}
+
+.header__title {
+  font-size: var(--font-size-header);
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-text);
+}
+
+.header__left,
+.header__right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px;
+}
+
+.header__label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+}
+
+.header__value {
+  font-size: clamp(14px, 4vw, 18px);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* ===== Difficulty bar ===== */
+.difficulty-bar {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap-sm);
+  flex-shrink: 0;
+  padding: 0 var(--gap-md);
+}
+
+.difficulty-btn {
+  flex: 1;
+  min-height: var(--tap-min);
+  border-radius: 8px;
+  border: 1px solid var(--color-cell-border-block);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: clamp(11px, 3vw, 14px);
+  font-weight: 500;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.difficulty-btn--active {
+  background-color: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+/* ===== Controls row ===== */
+.controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0 var(--gap-md);
+  gap: var(--gap-sm);
+}
+
+.control-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  flex: 1;
+  border-radius: 10px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-cell-border-block);
+  padding: var(--gap-xs) var(--gap-sm);
+  transition: background-color 0.15s;
+}
+
+.control-btn__icon {
+  font-size: clamp(18px, 5vw, 22px);
+  line-height: 1;
+}
+
+.control-btn__label {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  letter-spacing: 0.5px;
+}
+
+.control-btn--pencil[aria-pressed="true"] {
+  background-color: var(--color-primary-dim);
+  border-color: var(--color-primary);
+}
+
+.control-btn--pencil[aria-pressed="true"] .control-btn__label {
+  color: var(--color-primary);
+}
+
+/* ===== Numpad ===== */
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: var(--gap-xs);
+  flex-shrink: 0;
+  padding: 0 var(--gap-md) var(--gap-sm);
+}
+
+.numpad-btn {
+  aspect-ratio: 1;
+  min-height: var(--tap-min);
+  border-radius: 8px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-cell-border-block);
+  font-size: clamp(16px, 4.5vw, 22px);
+  font-weight: 600;
+  color: var(--color-text);
+  transition: background-color 0.1s, transform 0.1s;
+}
+
+.numpad-btn--active {
+  background-color: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.numpad-btn:active {
+  transform: scale(0.92);
+}
+
+/* ===== Victory / Game Over modal ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: var(--gap-lg);
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal {
+  background: var(--color-surface);
+  border: 1px solid var(--color-cell-border-block);
+  border-radius: 16px;
+  padding: var(--gap-lg) calc(var(--gap-lg) * 2);
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+.modal__title {
+  font-size: clamp(22px, 6vw, 28px);
+  font-weight: 700;
+  margin-bottom: var(--gap-md);
+}
+
+.modal__subtitle {
+  color: var(--color-text-muted);
+  margin-bottom: var(--gap-lg);
+}
+
+.modal__btn {
+  display: block;
+  width: 100%;
+  min-height: var(--tap-min);
+  border-radius: 10px;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: var(--font-size-ui);
+  font-weight: 600;
+}
