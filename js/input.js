@@ -1,10 +1,11 @@
 class InputHandler {
-  constructor(board, renderer, history, onSolved, onGameOver) {
-    this.board      = board;
-    this.renderer   = renderer;
-    this.history    = history;
-    this.onSolved   = onSolved;
-    this.onGameOver = onGameOver;
+  constructor(board, renderer, history, onSolved, onGameOver, onAfterChange) {
+    this.board         = board;
+    this.renderer      = renderer;
+    this.history       = history;
+    this.onSolved      = onSolved;
+    this.onGameOver    = onGameOver;
+    this.onAfterChange = onAfterChange;
     this.pencilMode = false;
 
     this._bindBoard();
@@ -115,6 +116,8 @@ class InputHandler {
 
     const conflicts = Validator.getConflicts(board.grid);
     renderer.showConflicts(conflicts);
+
+    this.onAfterChange?.();
 
     if (!checkWin) return;
 

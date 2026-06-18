@@ -2,42 +2,62 @@ document.addEventListener('DOMContentLoaded', () => {
   const board    = new Board();
   const renderer = new Renderer(document.getElementById('board'));
   const history  = new History();
+  const timer    = new Timer();
 
-  let timerSeconds = 0;
-  let timerInterval = null;
+  timer.onTick(s => {
+    renderer.updateTimer(s);
+    Storage.saveGame(board, s);
+  });
 
-  function startTimer() {
-    clearInterval(timerInterval);
-    timerSeconds = 0;
-    renderer.updateTimer(0);
-    timerInterval = setInterval(() => {
-      timerSeconds++;
-      renderer.updateTimer(timerSeconds);
-    }, 1000);
-  }
-
-  function stopTimer() {
-    clearInterval(timerInterval);
-  }
-
-  function startGame(difficulty) {
-    board.newGame(difficulty);
+  function startGame(difficulty, saved) {
+    timer.reset();
     history.clear();
+    renderer.hideModal();
+
+    if (saved) {
+      board.difficulty = saved.difficulty;
+      board.mistakes   = saved.mistakes;
+      board.puzzle     = saved.puzzle;
+      board.solution   = saved.solution;
+      board.locked     = saved.locked;
+      board.grid       = saved.grid;
+      board.notes      = saved.notes;
+      board.selected   = null;
+      timer.seconds    = saved.seconds;
+      renderer.updateTimer(saved.seconds);
+    } else {
+      board.newGame(difficulty);
+      Storage.clearSave();
+    }
+
+    if (input) input.pencilMode = false;
+
     renderer.init();
     renderer.render(board);
+    renderer.renderNotes(board);
     renderer.updateMistakes(board.mistakes, board.maxMistakes);
     renderer.updateNumpad(board);
     renderer.updatePencilBtn(false);
-    renderer.hideModal();
-    if (input) input.pencilMode = false;
-    startTimer();
+
+    timer.start();
   }
 
-  const input = new InputHandler(
-    board, renderer, history,
-    () => { stopTimer(); renderer.showVictory(timerSeconds); },
-    () => { stopTimer(); renderer.showGameOver(); }
-  );
+  function onSolved() {
+    timer.pause();
+    Storage.clearSave();
+    renderer.showVictory(timer.seconds);
+  }
+
+  function onGameOver() {
+    timer.pause();
+    Storage.clearSave();
+    renderer.showGameOver();
+  }
+
+  // InputHandler регистрирует saveGame после каждого хода
+  const input = new InputHandler(board, renderer, history, onSolved, onGameOver, () => {
+    Storage.saveGame(board, timer.seconds);
+  });
 
   // Кнопки сложности
   document.querySelectorAll('.difficulty-btn').forEach(btn => {
@@ -54,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startGame(active?.dataset.difficulty ?? 'easy');
   });
 
-  // Кнопка новой игры в модалке (добавляется динамически)
+  // Кнопка в модалке
   document.addEventListener('click', e => {
     if (e.target.id === 'modal-new-btn') {
       const active = document.querySelector('.difficulty-btn--active');
@@ -62,5 +82,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  startGame('easy');
+  // Старт: восстановить сохранение или новая игра
+  const saved = Storage.loadGame();
+  if (saved) {
+    const diffBtn = document.querySelector(`.difficulty-btn[data-difficulty="${saved.difficulty}"]`);
+    if (diffBtn) {
+      document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('difficulty-btn--active'));
+      diffBtn.classList.add('difficulty-btn--active');
+    }
+    startGame(null, saved);
+  } else {
+    startGame('easy');
+  }
 });
