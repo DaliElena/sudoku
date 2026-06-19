@@ -11,9 +11,14 @@ const Settings = (() => {
       colors: ['#13111a', '#c084fc', '#38bdf8'],
     },
     {
-      id: 'aurora',
-      name: 'Аврора',
-      colors: ['#0d1f1e', '#2dd4bf', '#a3e635'],
+      id: 'classic',
+      name: 'Классика',
+      colors: ['#000000', '#ffffff', '#4d9de0'],
+    },
+    {
+      id: 'paper',
+      name: 'Бумага',
+      colors: ['#f2ede4', '#2563eb', '#1c1917'],
     },
   ];
 
@@ -24,8 +29,9 @@ const Settings = (() => {
   }
 
   function loadTheme() {
-    const saved = localStorage.getItem('sudoku-theme') || 'midnight';
-    applyTheme(saved);
+    const saved = localStorage.getItem('sudoku-theme');
+    const valid = THEMES.some(t => t.id === saved);
+    applyTheme(valid ? saved : 'midnight');
   }
 
   function _updateActiveTheme(activeId) {

@@ -23,24 +23,52 @@
   --color-cell-conflict:    rgba(248, 113, 113, 0.22);
 }
 
-/* ===== Theme: Аврора ===== */
-[data-theme="aurora"] {
-  --color-bg:               #0d1f1e;
-  --color-surface:          #132e2c;
-  --color-surface-2:        #1a4040;
-  --color-primary:          #2dd4bf;
-  --color-primary-dim:      rgba(45, 212, 191, 0.15);
-  --color-user-input:       #a3e635;
-  --color-error:            #fb923c;
-  --color-error-bg:         rgba(251, 146, 60, 0.18);
-  --color-text:             #e4f0ef;
-  --color-text-muted:       #6a9e96;
-  --color-locked:           #8ab8b0;
-  --color-cell-bg:          #132e2c;
-  --color-cell-border:      #1e4a48;
-  --color-cell-border-block:#2d7a76;
-  --color-cell-selected:    #1a4a46;
-  --color-cell-highlight:   #163838;
-  --color-cell-same-value:  #183e3a;
-  --color-cell-conflict:    rgba(251, 146, 60, 0.22);
+/* В классике --color-primary белый — текст на кнопках должен быть чёрным */
+[data-theme="classic"] .difficulty-btn--active,
+[data-theme="classic"] .modal__btn {
+  color: #000;
+}
+
+/* ===== Theme: Классика (OLED dark) ===== */
+[data-theme="classic"] {
+  --color-bg:               #000000;
+  --color-surface:          #111111;
+  --color-surface-2:        #1c1c1c;
+  --color-primary:          #ffffff;
+  --color-primary-dim:      rgba(255, 255, 255, 0.1);
+  --color-user-input:       #4d9de0;
+  --color-error:            #ef4444;
+  --color-error-bg:         rgba(239, 68, 68, 0.15);
+  --color-text:             #f5f5f5;
+  --color-text-muted:       #666666;
+  --color-locked:           #aaaaaa;
+  --color-cell-bg:          #111111;
+  --color-cell-border:      #252525;
+  --color-cell-border-block:#3a3a3a;
+  --color-cell-selected:    #1e1e1e;
+  --color-cell-highlight:   #171717;
+  --color-cell-same-value:  #1a1a1a;
+  --color-cell-conflict:    rgba(239, 68, 68, 0.18);
+}
+
+/* ===== Theme: Бумага (light) ===== */
+[data-theme="paper"] {
+  --color-bg:               #f2ede4;
+  --color-surface:          #faf8f3;
+  --color-surface-2:        #e8e2d6;
+  --color-primary:          #2563eb;
+  --color-primary-dim:      rgba(37, 99, 235, 0.12);
+  --color-user-input:       #2563eb;
+  --color-error:            #dc2626;
+  --color-error-bg:         rgba(220, 38, 38, 0.12);
+  --color-text:             #1c1917;
+  --color-text-muted:       #78716c;
+  --color-locked:           #292524;
+  --color-cell-bg:          #faf8f3;
+  --color-cell-border:      #d6cfc3;
+  --color-cell-border-block:#9c9080;
+  --color-cell-selected:    #dbeafe;
+  --color-cell-highlight:   #f0ece3;
+  --color-cell-same-value:  #e8e4d8;
+  --color-cell-conflict:    rgba(220, 38, 38, 0.14);
 }
