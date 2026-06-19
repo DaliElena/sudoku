@@ -62,12 +62,36 @@ document.addEventListener('DOMContentLoaded', () => {
     Storage.saveGame(board, timer.seconds);
   });
 
+  function isGameInProgress() {
+    return board.grid && board.grid.some((row, r) =>
+      row.some((val, c) => val !== 0 && !board.locked[r][c])
+    );
+  }
+
+  function requestNewGame(difficulty) {
+    const go = () => startGame(difficulty);
+    if (isGameInProgress()) {
+      renderer.showConfirm(go);
+    } else {
+      go();
+    }
+  }
+
   // Кнопки сложности
   document.querySelectorAll('.difficulty-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('difficulty-btn--active'));
-      btn.classList.add('difficulty-btn--active');
-      startGame(btn.dataset.difficulty);
+      const newDifficulty = btn.dataset.difficulty;
+      const activeDifficulty = document.querySelector('.difficulty-btn--active')?.dataset.difficulty;
+      const switchDifficulty = () => {
+        document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('difficulty-btn--active'));
+        btn.classList.add('difficulty-btn--active');
+        startGame(newDifficulty);
+      };
+      if (isGameInProgress()) {
+        renderer.showConfirm(switchDifficulty);
+      } else {
+        switchDifficulty();
+      }
     });
   });
 
@@ -77,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Кнопка новой игры
   document.getElementById('btn-new').addEventListener('click', () => {
     const active = document.querySelector('.difficulty-btn--active');
-    startGame(active?.dataset.difficulty ?? 'easy');
+    requestNewGame(active?.dataset.difficulty ?? 'easy');
   });
 
   // Кнопка в модалке

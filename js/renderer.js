@@ -160,4 +160,41 @@ class Renderer {
     const overlay = document.getElementById('modal-overlay');
     if (overlay) overlay.classList.add('hidden');
   }
+
+  showConfirm(onConfirm) {
+    let overlay = document.getElementById('confirm-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'confirm-overlay';
+      overlay.className = 'modal-overlay hidden';
+      overlay.innerHTML = `
+        <div class="modal">
+          <div class="modal__title">Новая игра?</div>
+          <div class="modal__subtitle">Текущий прогресс будет потерян</div>
+          <div class="confirm__actions">
+            <button class="modal__btn modal__btn--secondary" id="confirm-cancel-btn">Отмена</button>
+            <button class="modal__btn" id="confirm-ok-btn">Начать</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+    }
+    overlay.classList.remove('hidden');
+
+    const ok = overlay.querySelector('#confirm-ok-btn');
+    const cancel = overlay.querySelector('#confirm-cancel-btn');
+
+    const cleanup = () => {
+      overlay.classList.add('hidden');
+      ok.removeEventListener('click', handleOk);
+      cancel.removeEventListener('click', handleCancel);
+      overlay.removeEventListener('click', handleBackdrop);
+    };
+    const handleOk = () => { cleanup(); onConfirm(); };
+    const handleCancel = () => cleanup();
+    const handleBackdrop = (e) => { if (e.target === overlay) cleanup(); };
+
+    ok.addEventListener('click', handleOk);
+    cancel.addEventListener('click', handleCancel);
+    overlay.addEventListener('click', handleBackdrop);
+  }
 }

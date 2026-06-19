@@ -316,3 +316,14 @@
   font-size: var(--font-size-ui);
   font-weight: 600;
 }
+
+.modal__btn--secondary {
+  background-color: transparent;
+  color: var(--color-text);
+  border: 2px solid var(--color-primary);
+}
+
+.confirm__actions {
+  display: flex;
+  gap: var(--gap-md);
+}
