@@ -131,7 +131,6 @@
 
 .numpad-btn {
   aspect-ratio: 1;
-  min-height: var(--tap-min);
   border-radius: 8px;
   background-color: var(--color-surface);
   border: 1px solid var(--color-cell-border-block);

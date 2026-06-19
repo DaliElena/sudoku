@@ -32,8 +32,12 @@ class Renderer {
         const locked = board.isLocked(r, c);
 
         el.className = 'cell';
-        if (locked)      el.classList.add('cell--locked');
-        else if (val)    el.classList.add('cell--filled');
+        if (locked) {
+          el.classList.add('cell--locked');
+        } else if (val) {
+          const wrong = val !== board.solution[r][c];
+          el.classList.add(wrong ? 'cell--wrong' : 'cell--filled');
+        }
 
         el.textContent = val !== 0 ? val : '';
       }

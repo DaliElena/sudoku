@@ -51,7 +51,7 @@
 }
 
 .cell--filled {
-  color: var(--color-primary);
+  color: var(--color-user-input);
 }
 
 .cell--selected {
@@ -69,6 +69,11 @@
 .cell--conflict {
   background-color: var(--color-cell-conflict);
   color: var(--color-primary);
+}
+
+.cell--wrong {
+  color: var(--color-error);
+  background-color: var(--color-error-bg) !important;
 }
 
 /* ===== Notes grid inside cell ===== */

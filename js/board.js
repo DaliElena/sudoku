@@ -12,8 +12,10 @@ class Board {
   }
 
   newGame(difficulty = 'easy') {
-    this.difficulty = difficulty;
-    this.mistakes   = 0;
+    const maxByDifficulty = { easy: 10, medium: 5, hard: 3 };
+    this.difficulty   = difficulty;
+    this.mistakes     = 0;
+    this.maxMistakes  = maxByDifficulty[difficulty] ?? 3;
     this.selected   = null;
     this.solution   = SudokuGenerator.generateSolution();
     this.puzzle     = SudokuGenerator.createPuzzle(this.solution, difficulty);

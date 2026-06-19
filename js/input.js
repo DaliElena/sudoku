@@ -42,9 +42,6 @@ class InputHandler {
         this._input(Number(e.key));
       } else if (e.key === 'Backspace' || e.key === 'Delete') {
         this._erase();
-      } else if (e.key === 'z' && (e.ctrlKey || e.metaKey)) {
-        e.preventDefault();
-        this._undo();
       } else {
         const moves = { ArrowUp:[-1,0], ArrowDown:[1,0], ArrowLeft:[0,-1], ArrowRight:[0,1] };
         if (moves[e.key]) {
@@ -62,7 +59,6 @@ class InputHandler {
   }
 
   _bindControls() {
-    document.getElementById('btn-undo').addEventListener('click', () => this._undo());
     document.getElementById('btn-erase').addEventListener('click', () => this._erase());
     document.getElementById('btn-pencil').addEventListener('click', () => {
       this.pencilMode = !this.pencilMode;
@@ -92,15 +88,7 @@ class InputHandler {
   _erase() {
     const sel = this.board.selected;
     if (!sel || this.board.isLocked(sel.row, sel.col)) return;
-    this.history.push(this.board.getSnapshot());
     this.board.clearValue(sel.row, sel.col);
-    this._afterChange(true);
-  }
-
-  _undo() {
-    const snap = this.history.undo();
-    if (!snap) return;
-    this.board.restoreSnapshot(snap);
     this._afterChange(true);
   }
 
@@ -113,9 +101,6 @@ class InputHandler {
     renderer.highlightSelected(board);
     renderer.updateNumpad(board);
     renderer.updateMistakes(board.mistakes, board.maxMistakes);
-
-    const conflicts = Validator.getConflicts(board.grid);
-    renderer.showConflicts(conflicts);
 
     this.onAfterChange?.();
 
