@@ -38,6 +38,30 @@ const Settings = (() => {
     applyFontSize(valid ? saved : 'medium');
   }
 
+  function isMistakesEnabled() {
+    return localStorage.getItem('sudoku-mistakes-enabled') !== 'false';
+  }
+
+  let _onMistakesEnabled = null;
+
+  function onMistakesEnabled(cb) {
+    _onMistakesEnabled = cb;
+  }
+
+  function setMistakesEnabled(enabled) {
+    localStorage.setItem('sudoku-mistakes-enabled', String(enabled));
+    _updateMistakesToggle(enabled);
+    const block = document.getElementById('mistakes-block');
+    if (block) block.style.visibility = enabled ? '' : 'hidden';
+    if (enabled && _onMistakesEnabled) _onMistakesEnabled();
+  }
+
+  function loadMistakes() {
+    const enabled = isMistakesEnabled();
+    const block = document.getElementById('mistakes-block');
+    if (block) block.style.visibility = enabled ? '' : 'hidden';
+  }
+
   function _updateActiveTheme(activeId) {
     document.querySelectorAll('.theme-card').forEach(card => {
       card.classList.toggle('theme-card--active', card.dataset.themeId === activeId);
@@ -50,6 +74,11 @@ const Settings = (() => {
     });
   }
 
+  function _updateMistakesToggle(enabled) {
+    const toggle = document.getElementById('mistakes-toggle');
+    if (toggle) toggle.checked = enabled;
+  }
+
   function showPanel() {
     let overlay = document.getElementById('settings-overlay');
     if (!overlay) {
@@ -59,6 +88,7 @@ const Settings = (() => {
     overlay.classList.remove('hidden');
     _updateActiveTheme(document.documentElement.dataset.theme || 'midnight');
     _updateActiveFontSize(localStorage.getItem('sudoku-font-size') || 'medium');
+    _updateMistakesToggle(isMistakesEnabled());
   }
 
   function hidePanel() {
@@ -101,6 +131,14 @@ const Settings = (() => {
           </button>
         `).join('')}
       </div>
+
+      <div class="settings-panel__toggle-row" style="margin-top: var(--gap-md);">
+        <label class="settings-panel__toggle-label" for="mistakes-toggle">Счётчик ошибок</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="mistakes-toggle" checked>
+          <span class="toggle-switch__track"></span>
+        </label>
+      </div>
     `;
 
     overlay.appendChild(panel);
@@ -116,9 +154,14 @@ const Settings = (() => {
       const sizeBtn = e.target.closest('.size-btn');
       if (sizeBtn) applyFontSize(sizeBtn.dataset.sizeId);
     });
+    panel.addEventListener('change', e => {
+      if (e.target.id === 'mistakes-toggle') {
+        setMistakesEnabled(e.target.checked);
+      }
+    });
 
     return overlay;
   }
 
-  return { loadTheme, loadFontSize, showPanel, hidePanel };
+  return { loadTheme, loadFontSize, loadMistakes, isMistakesEnabled, setMistakesEnabled, onMistakesEnabled, showPanel, hidePanel };
 })();

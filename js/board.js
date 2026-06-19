@@ -63,6 +63,7 @@ class Board {
   }
 
   isGameOver() {
+    if (!Settings.isMistakesEnabled()) return false;
     return this.mistakes >= this.maxMistakes;
   }
 

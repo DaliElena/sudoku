@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   Settings.loadTheme();
   Settings.loadFontSize();
+  Settings.loadMistakes();
+
   const board    = new Board();
   const renderer = new Renderer(document.getElementById('board'));
   const history  = new History();
@@ -94,6 +96,21 @@ document.addEventListener('DOMContentLoaded', () => {
         switchDifficulty();
       }
     });
+  });
+
+  // При включении счётчика проверяем, не превышен ли уже лимит
+  Settings.onMistakesEnabled(() => {
+    renderer.updateMistakes(board.mistakes, board.maxMistakes);
+    if (board.mistakes >= board.maxMistakes) {
+      Settings.hidePanel();
+      renderer.showMistakesExceeded(
+        () => {
+          const active = document.querySelector('.difficulty-btn--active');
+          startGame(active?.dataset.difficulty ?? 'easy');
+        },
+        () => Settings.setMistakesEnabled(false)
+      );
+    }
   });
 
   // Кнопка настроек

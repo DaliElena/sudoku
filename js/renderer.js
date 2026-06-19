@@ -88,6 +88,7 @@ class Renderer {
   }
 
   updateMistakes(count, max) {
+    if (!Settings.isMistakesEnabled()) return;
     document.getElementById('mistakes').textContent = `${count} / ${max}`;
   }
 
@@ -196,5 +197,39 @@ class Renderer {
     ok.addEventListener('click', handleOk);
     cancel.addEventListener('click', handleCancel);
     overlay.addEventListener('click', handleBackdrop);
+  }
+
+  showMistakesExceeded(onNewGame, onDisable) {
+    let overlay = document.getElementById('mistakes-exceeded-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'mistakes-exceeded-overlay';
+      overlay.className = 'modal-overlay hidden';
+      overlay.innerHTML = `
+        <div class="modal">
+          <div class="modal__title">Лимит ошибок превышен</div>
+          <div class="modal__subtitle">Количество ошибок для данного уровня превышено</div>
+          <div class="confirm__actions">
+            <button class="modal__btn modal__btn--secondary" id="me-disable-btn">Отключить счётчик</button>
+            <button class="modal__btn" id="me-new-btn">Новая игра</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+    }
+    overlay.classList.remove('hidden');
+
+    const newBtn  = overlay.querySelector('#me-new-btn');
+    const disBtn  = overlay.querySelector('#me-disable-btn');
+
+    const cleanup = () => {
+      overlay.classList.add('hidden');
+      newBtn.removeEventListener('click', handleNew);
+      disBtn.removeEventListener('click', handleDisable);
+    };
+    const handleNew     = () => { cleanup(); onNewGame(); };
+    const handleDisable = () => { cleanup(); onDisable(); };
+
+    newBtn.addEventListener('click', handleNew);
+    disBtn.addEventListener('click', handleDisable);
   }
 }

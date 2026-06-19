@@ -314,6 +314,68 @@
   color: var(--color-primary);
 }
 
+/* ===== Settings toggle row ===== */
+.settings-panel__toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--gap-sm) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.settings-panel__toggle-label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-switch__track {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: var(--color-border);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.toggle-switch__track::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.toggle-switch input:checked + .toggle-switch__track {
+  background: var(--color-primary);
+}
+
+.toggle-switch input:checked + .toggle-switch__track::after {
+  transform: translateX(20px);
+  background: #fff;
+}
+
 /* ===== Victory / Game Over modal ===== */
 .modal-overlay {
   position: fixed;
