@@ -269,6 +269,50 @@
   color: var(--color-primary);
 }
 
+/* ===== Size selector ===== */
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-sm);
+}
+
+.size-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-xs);
+  padding: var(--gap-sm);
+  border-radius: 14px;
+  border: 2px solid var(--color-cell-border);
+  background: var(--color-surface-2);
+  transition: border-color 0.15s, transform 0.1s;
+}
+
+.size-btn--active {
+  border-color: var(--color-primary);
+}
+
+.size-btn:active {
+  transform: scale(0.95);
+}
+
+.size-btn__preview {
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+
+.size-btn__label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.3px;
+}
+
+.size-btn--active .size-btn__label {
+  color: var(--color-primary);
+}
+
 /* ===== Victory / Game Over modal ===== */
 .modal-overlay {
   position: fixed;

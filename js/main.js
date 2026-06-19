@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   Settings.loadTheme();
+  Settings.loadFontSize();
   const board    = new Board();
   const renderer = new Renderer(document.getElementById('board'));
   const history  = new History();
