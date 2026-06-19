@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  I18n.loadLang();
   Settings.loadTheme();
   Settings.loadFontSize();
   Settings.loadMistakes();

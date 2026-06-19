@@ -131,11 +131,11 @@ class Renderer {
   showVictory(seconds) {
     const m = String(Math.floor(seconds / 60)).padStart(2, '0');
     const s = String(seconds % 60).padStart(2, '0');
-    this._showModal('Победа! 🎉', `Время: ${m}:${s}`);
+    this._showModal(I18n.t('victory'), `${I18n.t('victoryTime')}: ${m}:${s}`);
   }
 
   showGameOver() {
-    this._showModal('Игра окончена', 'Слишком много ошибок');
+    this._showModal(I18n.t('gameOver'), I18n.t('gameOverSub'));
   }
 
   _showModal(title, subtitle) {
@@ -148,12 +148,13 @@ class Renderer {
         <div class="modal">
           <div class="modal__title"></div>
           <div class="modal__subtitle"></div>
-          <button class="modal__btn" id="modal-new-btn">Новая игра</button>
+          <button class="modal__btn" id="modal-new-btn"></button>
         </div>`;
       document.body.appendChild(overlay);
     }
     overlay.querySelector('.modal__title').textContent = title;
     overlay.querySelector('.modal__subtitle').textContent = subtitle;
+    overlay.querySelector('#modal-new-btn').textContent = I18n.t('modalNewGame');
     overlay.classList.remove('hidden');
   }
 
@@ -164,21 +165,20 @@ class Renderer {
 
   showConfirm(onConfirm) {
     let overlay = document.getElementById('confirm-overlay');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.id = 'confirm-overlay';
-      overlay.className = 'modal-overlay hidden';
-      overlay.innerHTML = `
-        <div class="modal">
-          <div class="modal__title">Новая игра?</div>
-          <div class="modal__subtitle">Текущий прогресс будет потерян</div>
-          <div class="confirm__actions">
-            <button class="modal__btn modal__btn--secondary" id="confirm-cancel-btn">Отмена</button>
-            <button class="modal__btn" id="confirm-ok-btn">Начать</button>
-          </div>
-        </div>`;
-      document.body.appendChild(overlay);
-    }
+    if (overlay) overlay.remove();
+    overlay = document.createElement('div');
+    overlay.id = 'confirm-overlay';
+    overlay.className = 'modal-overlay hidden';
+    overlay.innerHTML = `
+      <div class="modal">
+        <div class="modal__title">${I18n.t('confirmTitle')}</div>
+        <div class="modal__subtitle">${I18n.t('confirmSub')}</div>
+        <div class="confirm__actions">
+          <button class="modal__btn modal__btn--secondary" id="confirm-cancel-btn">${I18n.t('confirmCancel')}</button>
+          <button class="modal__btn" id="confirm-ok-btn">${I18n.t('confirmOk')}</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
     overlay.classList.remove('hidden');
 
     const ok = overlay.querySelector('#confirm-ok-btn');
@@ -201,21 +201,20 @@ class Renderer {
 
   showMistakesExceeded(onNewGame, onDisable) {
     let overlay = document.getElementById('mistakes-exceeded-overlay');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.id = 'mistakes-exceeded-overlay';
-      overlay.className = 'modal-overlay hidden';
-      overlay.innerHTML = `
-        <div class="modal">
-          <div class="modal__title">Лимит ошибок превышен</div>
-          <div class="modal__subtitle">Количество ошибок для данного уровня превышено</div>
-          <div class="confirm__actions">
-            <button class="modal__btn modal__btn--secondary" id="me-disable-btn">Отключить счётчик</button>
-            <button class="modal__btn" id="me-new-btn">Новая игра</button>
-          </div>
-        </div>`;
-      document.body.appendChild(overlay);
-    }
+    if (overlay) overlay.remove();
+    overlay = document.createElement('div');
+    overlay.id = 'mistakes-exceeded-overlay';
+    overlay.className = 'modal-overlay hidden';
+    overlay.innerHTML = `
+      <div class="modal">
+        <div class="modal__title">${I18n.t('mistakesExceededTitle')}</div>
+        <div class="modal__subtitle">${I18n.t('mistakesExceededSub')}</div>
+        <div class="confirm__actions">
+          <button class="modal__btn modal__btn--secondary" id="me-disable-btn">${I18n.t('mistakesDisable')}</button>
+          <button class="modal__btn" id="me-new-btn">${I18n.t('modalNewGame')}</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
     overlay.classList.remove('hidden');
 
     const newBtn  = overlay.querySelector('#me-new-btn');

@@ -434,3 +434,31 @@
   display: flex;
   gap: var(--gap-md);
 }
+
+/* ===== Language selector ===== */
+.lang-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap-sm);
+}
+
+.lang-btn {
+  padding: var(--gap-sm);
+  border-radius: 14px;
+  border: 2px solid var(--color-cell-border);
+  background: var(--color-surface-2);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  letter-spacing: 1px;
+  transition: border-color 0.15s, color 0.15s, transform 0.1s;
+}
+
+.lang-btn--active {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.lang-btn:active {
+  transform: scale(0.95);
+}

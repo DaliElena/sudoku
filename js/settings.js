@@ -1,15 +1,15 @@
 const Settings = (() => {
   const THEMES = [
-    { id: 'midnight', name: 'Полночь', colors: ['#1a1a2e', '#e94560', '#5b9cf6'] },
-    { id: 'twilight', name: 'Сумерки', colors: ['#13111a', '#c084fc', '#38bdf8'] },
-    { id: 'classic',  name: 'Классика', colors: ['#000000', '#ffffff', '#4d9de0'] },
-    { id: 'paper',    name: 'Бумага',   colors: ['#f2ede4', '#2563eb', '#1c1917'] },
+    { id: 'midnight', nameKey: 'themeNameMidnight', colors: ['#1a1a2e', '#e94560', '#5b9cf6'] },
+    { id: 'twilight', nameKey: 'themeNameTwilight', colors: ['#13111a', '#c084fc', '#38bdf8'] },
+    { id: 'classic',  nameKey: 'themeNameClassic',  colors: ['#000000', '#ffffff', '#4d9de0'] },
+    { id: 'paper',    nameKey: 'themeNamePaper',    colors: ['#f2ede4', '#2563eb', '#1c1917'] },
   ];
 
   const FONT_SIZES = [
-    { id: 'small',  name: 'Маленький', cell: 'clamp(12px, 3.2vw, 20px)', note: 'clamp(5px, 1.4vw, 9px)'  },
-    { id: 'medium', name: 'Средний',   cell: 'clamp(16px, 4.5vw, 28px)', note: 'clamp(7px, 1.8vw, 11px)' },
-    { id: 'large',  name: 'Большой',   cell: 'clamp(20px, 5.8vw, 36px)', note: 'clamp(8px, 2.2vw, 13px)' },
+    { id: 'small',  nameKey: 'fontNameSmall',  cell: 'clamp(12px, 3.2vw, 20px)', note: 'clamp(5px, 1.4vw, 9px)'  },
+    { id: 'medium', nameKey: 'fontNameMedium', cell: 'clamp(16px, 4.5vw, 28px)', note: 'clamp(7px, 1.8vw, 11px)' },
+    { id: 'large',  nameKey: 'fontNameLarge',  cell: 'clamp(20px, 5.8vw, 36px)', note: 'clamp(8px, 2.2vw, 13px)' },
   ];
 
   function applyTheme(id) {
@@ -74,6 +74,12 @@ const Settings = (() => {
     });
   }
 
+  function _updateActiveLang(activeLang) {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('lang-btn--active', btn.dataset.lang === activeLang);
+    });
+  }
+
   function _updateMistakesToggle(enabled) {
     const toggle = document.getElementById('mistakes-toggle');
     if (toggle) toggle.checked = enabled;
@@ -81,14 +87,14 @@ const Settings = (() => {
 
   function showPanel() {
     let overlay = document.getElementById('settings-overlay');
-    if (!overlay) {
-      overlay = _createPanel();
-      document.body.appendChild(overlay);
-    }
+    if (overlay) overlay.remove();
+    overlay = _createPanel();
+    document.body.appendChild(overlay);
     overlay.classList.remove('hidden');
     _updateActiveTheme(document.documentElement.dataset.theme || 'midnight');
     _updateActiveFontSize(localStorage.getItem('sudoku-font-size') || 'medium');
     _updateMistakesToggle(isMistakesEnabled());
+    _updateActiveLang(I18n.currentLang());
   }
 
   function hidePanel() {
@@ -106,38 +112,44 @@ const Settings = (() => {
 
     panel.innerHTML = `
       <div class="settings-panel__header">
-        <span class="settings-panel__title">Настройки</span>
-        <button class="settings-panel__close" id="settings-close" aria-label="Закрыть">✕</button>
+        <span class="settings-panel__title">${I18n.t('settingsTitle')}</span>
+        <button class="settings-panel__close" id="settings-close" aria-label="${I18n.t('settingsClose')}">✕</button>
       </div>
 
-      <p class="settings-panel__label">Тема оформления</p>
+      <p class="settings-panel__label">${I18n.t('settingsThemeLabel')}</p>
       <div class="theme-grid">
-        ${THEMES.map(t => `
-          <button class="theme-card" data-theme-id="${t.id}" aria-label="Тема ${t.name}">
+        ${THEMES.map(theme => `
+          <button class="theme-card" data-theme-id="${theme.id}" aria-label="${I18n.t(theme.nameKey)}">
             <div class="theme-card__preview">
-              ${t.colors.map(c => `<span class="theme-card__swatch" style="background:${c}"></span>`).join('')}
+              ${theme.colors.map(c => `<span class="theme-card__swatch" style="background:${c}"></span>`).join('')}
             </div>
-            <span class="theme-card__name">${t.name}</span>
+            <span class="theme-card__name">${I18n.t(theme.nameKey)}</span>
           </button>
         `).join('')}
       </div>
 
-      <p class="settings-panel__label" style="margin-top: var(--gap-md);">Размер цифр</p>
+      <p class="settings-panel__label" style="margin-top: var(--gap-md);">${I18n.t('settingsFontLabel')}</p>
       <div class="size-grid">
         ${FONT_SIZES.map(s => `
-          <button class="size-btn" data-size-id="${s.id}" aria-label="Размер ${s.name}">
+          <button class="size-btn" data-size-id="${s.id}" aria-label="${I18n.t(s.nameKey)}">
             <span class="size-btn__preview" style="font-size: ${s.id === 'small' ? '14px' : s.id === 'medium' ? '18px' : '24px'}">5</span>
-            <span class="size-btn__label">${s.name}</span>
+            <span class="size-btn__label">${I18n.t(s.nameKey)}</span>
           </button>
         `).join('')}
       </div>
 
       <div class="settings-panel__toggle-row" style="margin-top: var(--gap-md);">
-        <label class="settings-panel__toggle-label" for="mistakes-toggle">Счётчик ошибок</label>
+        <label class="settings-panel__toggle-label" for="mistakes-toggle">${I18n.t('settingsMistakesLabel')}</label>
         <label class="toggle-switch">
           <input type="checkbox" id="mistakes-toggle" checked>
           <span class="toggle-switch__track"></span>
         </label>
+      </div>
+
+      <p class="settings-panel__label" style="margin-top: var(--gap-md);">${I18n.t('settingsLangLabel')}</p>
+      <div class="lang-grid">
+        <button class="lang-btn" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
       </div>
     `;
 
@@ -152,7 +164,9 @@ const Settings = (() => {
       const card = e.target.closest('.theme-card');
       if (card) { applyTheme(card.dataset.themeId); return; }
       const sizeBtn = e.target.closest('.size-btn');
-      if (sizeBtn) applyFontSize(sizeBtn.dataset.sizeId);
+      if (sizeBtn) { applyFontSize(sizeBtn.dataset.sizeId); return; }
+      const langBtn = e.target.closest('.lang-btn');
+      if (langBtn) { I18n.setLang(langBtn.dataset.lang); _updateActiveLang(langBtn.dataset.lang); }
     });
     panel.addEventListener('change', e => {
       if (e.target.id === 'mistakes-toggle') {
@@ -162,6 +176,11 @@ const Settings = (() => {
 
     return overlay;
   }
+
+  I18n.onChange(() => {
+    const overlay = document.getElementById('settings-overlay');
+    if (overlay && !overlay.classList.contains('hidden')) showPanel();
+  });
 
   return { loadTheme, loadFontSize, loadMistakes, isMistakesEnabled, setMistakesEnabled, onMistakesEnabled, showPanel, hidePanel };
 })();
