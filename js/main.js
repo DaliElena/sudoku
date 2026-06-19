@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  Settings.loadTheme();
   const board    = new Board();
   const renderer = new Renderer(document.getElementById('board'));
   const history  = new History();
@@ -67,6 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
       startGame(btn.dataset.difficulty);
     });
   });
+
+  // Кнопка настроек
+  document.getElementById('btn-settings').addEventListener('click', () => Settings.showPanel());
 
   // Кнопка новой игры
   document.getElementById('btn-new').addEventListener('click', () => {

@@ -1,0 +1,46 @@
+/* ===== Theme: Полночь (default) ===== */
+/* Variables are defined in base.css :root */
+
+/* ===== Theme: Сумерки ===== */
+[data-theme="twilight"] {
+  --color-bg:               #13111a;
+  --color-surface:          #1e1a2e;
+  --color-surface-2:        #2a2348;
+  --color-primary:          #c084fc;
+  --color-primary-dim:      rgba(192, 132, 252, 0.15);
+  --color-user-input:       #38bdf8;
+  --color-error:            #f87171;
+  --color-error-bg:         rgba(248, 113, 113, 0.18);
+  --color-text:             #e8e4f0;
+  --color-text-muted:       #8878b0;
+  --color-locked:           #b09ed4;
+  --color-cell-bg:          #1e1a2e;
+  --color-cell-border:      #352d5a;
+  --color-cell-border-block:#5a4d8a;
+  --color-cell-selected:    #312a5e;
+  --color-cell-highlight:   #261f4a;
+  --color-cell-same-value:  #2c2652;
+  --color-cell-conflict:    rgba(248, 113, 113, 0.22);
+}
+
+/* ===== Theme: Аврора ===== */
+[data-theme="aurora"] {
+  --color-bg:               #0d1f1e;
+  --color-surface:          #132e2c;
+  --color-surface-2:        #1a4040;
+  --color-primary:          #2dd4bf;
+  --color-primary-dim:      rgba(45, 212, 191, 0.15);
+  --color-user-input:       #a3e635;
+  --color-error:            #fb923c;
+  --color-error-bg:         rgba(251, 146, 60, 0.18);
+  --color-text:             #e4f0ef;
+  --color-text-muted:       #6a9e96;
+  --color-locked:           #8ab8b0;
+  --color-cell-bg:          #132e2c;
+  --color-cell-border:      #1e4a48;
+  --color-cell-border-block:#2d7a76;
+  --color-cell-selected:    #1a4a46;
+  --color-cell-highlight:   #163838;
+  --color-cell-same-value:  #183e3a;
+  --color-cell-conflict:    rgba(251, 146, 60, 0.22);
+}

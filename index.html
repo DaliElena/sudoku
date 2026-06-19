@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#1a1a2e" />
   <title>Судоку</title>
   <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/themes.css" />
   <link rel="stylesheet" href="css/board.css" />
   <link rel="stylesheet" href="css/ui.css" />
 </head>
@@ -62,6 +63,10 @@
         <span class="control-btn__icon">⊕</span>
         <span class="control-btn__label">Новая</span>
       </button>
+      <button class="control-btn" id="btn-settings" aria-label="Настройки">
+        <span class="control-btn__icon">⚙</span>
+        <span class="control-btn__label">Тема</span>
+      </button>
     </div>
 
     <!-- Цифровая панель -->
@@ -80,6 +85,7 @@
   </div>
 
   <!-- Скрипты -->
+  <script src="js/settings.js"></script>
   <script src="js/generator.js"></script>
   <script src="js/board.js"></script>
   <script src="js/validator.js"></script>
