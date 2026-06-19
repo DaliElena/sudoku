@@ -1,24 +1,25 @@
-const CACHE_NAME = 'sudoku-v1';
+const CACHE_NAME = 'sudoku-v2';
+const BASE = self.registration.scope;
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/css/base.css',
-  '/css/themes.css',
-  '/css/board.css',
-  '/css/ui.css',
-  '/js/i18n.js',
-  '/js/settings.js',
-  '/js/generator.js',
-  '/js/board.js',
-  '/js/validator.js',
-  '/js/history.js',
-  '/js/timer.js',
-  '/js/storage.js',
-  '/js/renderer.js',
-  '/js/input.js',
-  '/js/main.js',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  BASE,
+  BASE + 'index.html',
+  BASE + 'css/base.css',
+  BASE + 'css/themes.css',
+  BASE + 'css/board.css',
+  BASE + 'css/ui.css',
+  BASE + 'js/i18n.js',
+  BASE + 'js/settings.js',
+  BASE + 'js/generator.js',
+  BASE + 'js/board.js',
+  BASE + 'js/validator.js',
+  BASE + 'js/history.js',
+  BASE + 'js/timer.js',
+  BASE + 'js/storage.js',
+  BASE + 'js/renderer.js',
+  BASE + 'js/input.js',
+  BASE + 'js/main.js',
+  BASE + 'icons/icon-192.png',
+  BASE + 'icons/icon-512.png'
 ];
 
 self.addEventListener('install', event => {
