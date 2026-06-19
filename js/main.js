@@ -16,8 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.hideModal();
 
     if (saved) {
-      board.difficulty = saved.difficulty;
-      board.mistakes   = saved.mistakes;
+      board.difficulty  = saved.difficulty;
+      board.mistakes    = saved.mistakes;
+      const maxByDiff   = { easy: 10, medium: 5, hard: 3 };
+      board.maxMistakes = maxByDiff[saved.difficulty] ?? 3;
       board.puzzle     = saved.puzzle;
       board.solution   = saved.solution;
       board.locked     = saved.locked;
