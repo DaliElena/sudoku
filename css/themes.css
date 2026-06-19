@@ -25,7 +25,8 @@
 
 /* В классике --color-primary белый — текст на кнопках должен быть чёрным */
 [data-theme="classic"] .difficulty-btn--active,
-[data-theme="classic"] .modal__btn {
+[data-theme="classic"] .modal__btn,
+[data-theme="classic"] .numpad-btn--active {
   color: #000;
 }
 
