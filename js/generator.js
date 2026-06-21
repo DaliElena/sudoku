@@ -48,6 +48,24 @@ const SudokuGenerator = (() => {
 
   const CLUES = { easy: 36, medium: 28, hard: 22 };
 
+  function countSolutions(grid, limit = 2) {
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        if (grid[row][col] !== 0) continue;
+        let count = 0;
+        for (let num = 1; num <= 9; num++) {
+          if (!isValid(grid, row, col, num)) continue;
+          grid[row][col] = num;
+          count += countSolutions(grid, limit - count);
+          grid[row][col] = 0;
+          if (count >= limit) return count;
+        }
+        return count;
+      }
+    }
+    return 1;
+  }
+
   function createPuzzle(solution, difficulty = 'medium') {
     const puzzle = solution.map(row => [...row]);
     const clues = CLUES[difficulty] ?? CLUES.medium;
@@ -58,8 +76,13 @@ const SudokuGenerator = (() => {
     const target = 81 - clues;
     for (const [r, c] of cells) {
       if (removed >= target) break;
+      const backup = puzzle[r][c];
       puzzle[r][c] = 0;
-      removed++;
+      if (countSolutions(puzzle) !== 1) {
+        puzzle[r][c] = backup;
+      } else {
+        removed++;
+      }
     }
     return puzzle;
   }
