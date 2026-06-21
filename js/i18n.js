@@ -46,6 +46,16 @@ const I18n = (() => {
       mistakesExceededTitle: 'Лимит ошибок превышен',
       mistakesExceededSub: 'Количество ошибок для данного уровня превышено',
       mistakesDisable: 'Отключить счётчик',
+
+      hint: 'Подсказка',
+      hintNoEmpty: 'Все клетки заполнены!',
+      hintRow: 'в строке',
+      hintCol: 'в столбце',
+      hintBox: 'в блоке',
+      hintExplain: 'Здесь можно поставить только',
+      hintBecause: 'Цифры',
+      hintAlready: 'уже заняты',
+      hintClose: 'Понятно',
     },
     en: {
       title: 'Sudoku',
@@ -91,6 +101,16 @@ const I18n = (() => {
       mistakesExceededTitle: 'Error limit exceeded',
       mistakesExceededSub: 'The error limit for this difficulty has been exceeded',
       mistakesDisable: 'Disable counter',
+
+      hint: 'Hint',
+      hintNoEmpty: 'All cells are filled!',
+      hintRow: 'in the row',
+      hintCol: 'in the column',
+      hintBox: 'in the box',
+      hintExplain: 'Only one digit fits here:',
+      hintBecause: 'Digits',
+      hintAlready: 'are already taken',
+      hintClose: 'Got it',
     },
   };
 

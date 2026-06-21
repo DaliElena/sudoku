@@ -67,6 +67,7 @@ class InputHandler {
   }
 
   _input(num) {
+    this.renderer.hideHint();
     const sel = this.board.selected;
     if (!sel) return;
     if (this.board.isLocked(sel.row, sel.col)) return;

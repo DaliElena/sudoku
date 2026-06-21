@@ -117,6 +117,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Кнопка настроек
   document.getElementById('btn-settings').addEventListener('click', () => Settings.showPanel());
 
+  // Кнопка подсказки
+  document.getElementById('btn-hint').addEventListener('click', () => {
+    renderer.hideHint();
+    const hint = Hint.getHint(board);
+    if (!hint) return;
+    renderer.showHint(hint, null);
+  });
+
   // Кнопка новой игры
   document.getElementById('btn-new').addEventListener('click', () => {
     const active = document.querySelector('.difficulty-btn--active');

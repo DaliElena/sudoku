@@ -199,6 +199,68 @@ class Renderer {
     overlay.addEventListener('click', handleBackdrop);
   }
 
+  showHint(hint, onClose) {
+    // Подсветить клетку
+    this._cell(hint.row, hint.col).classList.add('cell--hint');
+
+    // Создать/обновить панель
+    let panel = document.getElementById('hint-panel');
+    if (!panel) {
+      panel = document.createElement('div');
+      panel.id = 'hint-panel';
+      panel.className = 'hint-panel';
+      document.body.appendChild(panel);
+    }
+
+    const tags = (nums, label) =>
+      nums.length ? `<span class="hint-panel__tag">${label}: ${nums.join(', ')}</span>` : '';
+
+    panel.innerHTML = `
+      <div class="hint-panel__header">
+        <span class="hint-panel__icon">💡</span>
+        <span class="hint-panel__title">${I18n.t('hint')}</span>
+      </div>
+      <div class="hint-panel__body">
+        <div class="hint-panel__answer">${I18n.t('hintExplain')} <strong>${hint.value}</strong></div>
+        <div class="hint-panel__reason">
+          ${tags(hint.rowUsed, I18n.t('hintRow'))}
+          ${tags(hint.colUsed, I18n.t('hintCol'))}
+          ${tags(hint.boxUsed, I18n.t('hintBox'))}
+        </div>
+      </div>
+      <button class="hint-panel__close" id="hint-close-btn">${I18n.t('hintClose')}</button>`;
+
+    // Показать панель
+    requestAnimationFrame(() => panel.classList.add('hint-panel--visible'));
+
+    const close = () => {
+      panel.classList.remove('hint-panel--visible');
+      this._cell(hint.row, hint.col).classList.remove('cell--hint');
+      panel.querySelector('#hint-close-btn')?.removeEventListener('click', close);
+      this._activeHintClose = null;
+      if (onClose) onClose();
+    };
+
+    panel.querySelector('#hint-close-btn').addEventListener('click', close);
+    this._activeHintClose = close;
+    this._hintRow = hint.row;
+    this._hintCol = hint.col;
+  }
+
+  hideHint() {
+    if (this._activeHintClose) {
+      this._activeHintClose();
+    } else {
+      // Fallback: just hide visually if close callback is already gone
+      const panel = document.getElementById('hint-panel');
+      if (panel) panel.classList.remove('hint-panel--visible');
+      if (this._hintRow != null) {
+        this._cell(this._hintRow, this._hintCol)?.classList.remove('cell--hint');
+        this._hintRow = null; this._hintCol = null;
+      }
+    }
+  }
+
   showMistakesExceeded(onNewGame, onDisable) {
     let overlay = document.getElementById('mistakes-exceeded-overlay');
     if (overlay) overlay.remove();

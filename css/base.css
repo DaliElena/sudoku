@@ -23,6 +23,9 @@
   --color-cell-same-value: #1e3060;
   --color-cell-conflict: rgba(233, 69, 96, 0.25);
   --color-cell-conflict-border: var(--color-primary);
+  --color-hint-bg: rgba(250, 204, 21, 0.22);
+  --color-hint-border: #facc15;
+  --color-hint-text: #facc15;
 
   /* Typography */
   --font-size-cell: clamp(16px, 4.5vw, 28px);
