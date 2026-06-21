@@ -101,13 +101,14 @@ const Hint = (() => {
     const naked = _findNakedSingle(grid, locked);
     if (naked) {
       const { r, c, value } = naked;
-      return {
-        row: r, col: c, value,
-        type: 'naked',
-        rowUsed: [..._usedInRow(grid, r)].sort((a, b) => a - b),
-        colUsed: [..._usedInCol(grid, c)].sort((a, b) => a - b),
-        boxUsed: [..._usedInBox(grid, r, c)].sort((a, b) => a - b),
-      };
+      const rowUsed = [..._usedInRow(grid, r)].sort((a, b) => a - b);
+      const colUsed = [..._usedInCol(grid, c)].sort((a, b) => a - b);
+      const boxUsed = [..._usedInBox(grid, r, c)].sort((a, b) => a - b);
+      // Deduplicated union of all blocked digits (excluding the answer itself)
+      const blocked = [...new Set([...rowUsed, ...colUsed, ...boxUsed])]
+        .filter(n => n !== value)
+        .sort((a, b) => a - b);
+      return { row: r, col: c, value, type: 'naked', rowUsed, colUsed, boxUsed, blocked };
     }
 
     const hidden = _findHiddenSingle(grid, locked);

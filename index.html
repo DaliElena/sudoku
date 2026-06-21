@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#1a1a2e" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
@@ -13,6 +13,13 @@
   <link rel="stylesheet" href="css/ui.css" />
 </head>
 <body>
+  <div id="orientation-overlay">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16.48 2.52c3.27 1.55 5.61 4.72 5.97 8.48h1.55C23.56 4.96 20.29.6 15.8 0l.68 2.52zM10.2 0C5.71.6 2.44 4.96 2 11h1.55c.36-3.76 2.7-6.93 5.97-8.48L10.2 0zM16 17H8V7H5v10c0 1.1.9 2 2 2h9v3l4-4-4-4v3zm-8-7h8v1H8v-1z"/>
+    </svg>
+    <span data-i18n="rotatePlease">Пожалуйста, поверните устройство</span>
+  </div>
+
   <div class="app">
 
     <!-- Шапка -->

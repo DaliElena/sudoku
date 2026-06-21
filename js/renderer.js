@@ -240,22 +240,31 @@ class Renderer {
       document.body.appendChild(panel);
     }
 
-    const tags = (nums, label) =>
+    const tag = (nums, label) =>
       nums.length ? `<span class="hint-panel__tag">${label}: ${nums.join(', ')}</span>` : '';
 
     let bodyHtml = '';
     if (hint.type === 'naked') {
+      const because = I18n.t('hintNakedBecause').replace('{list}', hint.blocked.join(', '));
       bodyHtml = `
-        <div class="hint-panel__answer">${I18n.t('hintExplain')} <strong>${hint.value}</strong></div>
+        <div class="hint-panel__answer">${I18n.t('hintNakedOnly')} <strong>${hint.value}</strong>.</div>
         <div class="hint-panel__reason">
-          ${tags(hint.rowUsed, I18n.t('hintRow'))}
-          ${tags(hint.colUsed, I18n.t('hintCol'))}
-          ${tags(hint.boxUsed, I18n.t('hintBox'))}
+          <p class="hint-panel__reason-text">${because}</p>
+          <div class="hint-panel__tags">
+            ${tag(hint.rowUsed, I18n.t('hintRow'))}
+            ${tag(hint.colUsed, I18n.t('hintCol'))}
+            ${tag(hint.boxUsed, I18n.t('hintBox'))}
+          </div>
         </div>`;
     } else if (hint.type === 'hidden') {
       const key = { row: 'hintHiddenRow', col: 'hintHiddenCol', box: 'hintHiddenBox' }[hint.group];
-      const text = I18n.t(key).replace('{v}', hint.value);
-      bodyHtml = `<div class="hint-panel__answer"><strong>${hint.value}</strong> — ${text}</div>`;
+      const groupNum = hint.group === 'row' ? hint.row + 1 : hint.col + 1;
+      const text = I18n.t(key).replace('{v}', hint.value).replace('{n}', groupNum);
+      bodyHtml = `
+        <div class="hint-panel__answer">${I18n.t('hintNakedOnly')} <strong>${hint.value}</strong>.</div>
+        <div class="hint-panel__reason">
+          <p class="hint-panel__reason-text">${text}</p>
+        </div>`;
     }
 
     panel.innerHTML = `

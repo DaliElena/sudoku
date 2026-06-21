@@ -518,9 +518,23 @@
 
 .hint-panel__reason {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--gap-xs);
   margin-top: var(--gap-sm);
+}
+
+.hint-panel__reason-text {
+  margin: 0;
+  font-size: var(--font-size-ui);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.hint-panel__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-xs);
+  margin-top: var(--gap-xs);
 }
 
 .hint-panel__tag {
