@@ -122,7 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-hint').addEventListener('click', () => {
     renderer.hideHint();
     const hint = Hint.getHint(board);
-    if (!hint) return;
+    if (!hint) {
+      renderer.showHint({ type: 'none' }, null);
+      return;
+    }
     renderer.showHint(hint, null);
   });
 

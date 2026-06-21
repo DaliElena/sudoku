@@ -28,38 +28,95 @@ const Hint = (() => {
     return [1,2,3,4,5,6,7,8,9].filter(n => !used.has(n));
   }
 
-  // Возвращает наиболее «объяснимую» пустую клетку.
-  // Приоритет: naked single (ровно 1 кандидат) → иначе любая пустая клетка.
-  // nakedSingle=true означает, что объяснение через занятые числа корректно.
-  function getHint(board) {
-    const { grid, solution, locked } = board;
-    let nakedSingle = null;
-    let anyEmpty = null;
-
+  // Ищет naked single: клетка, в которую по строке+столбцу+блоку подходит ровно одна цифра.
+  function _findNakedSingle(grid, locked) {
     for (let r = 0; r < 9; r++) {
       for (let c = 0; c < 9; c++) {
         if (locked[r][c] || grid[r][c] !== 0) continue;
         const cands = _candidates(grid, r, c);
-        if (cands.length === 1 && !nakedSingle) {
-          nakedSingle = { r, c };
-        }
-        if (!anyEmpty) {
-          anyEmpty = { r, c };
+        if (cands.length === 1) {
+          return { r, c, value: cands[0], type: 'naked' };
         }
       }
     }
+    return null;
+  }
 
-    const target = nakedSingle || anyEmpty;
-    if (!target) return null;
+  // Ищет hidden single: цифра, которая в данной строке/столбце/блоке
+  // может встать только в одну клетку.
+  function _findHiddenSingle(grid, locked) {
+    // Проверяем все строки, столбцы и блоки для каждой цифры 1-9
+    for (let digit = 1; digit <= 9; digit++) {
 
-    const { r, c } = target;
-    const value = solution[r][c];
-    const isNakedSingle = !!nakedSingle;
-    const rowUsed = [..._usedInRow(grid, r)].sort((a,b)=>a-b);
-    const colUsed = [..._usedInCol(grid, c)].sort((a,b)=>a-b);
-    const boxUsed = [..._usedInBox(grid, r, c)].sort((a,b)=>a-b);
+      // По строкам
+      for (let r = 0; r < 9; r++) {
+        const cells = [];
+        for (let c = 0; c < 9; c++) {
+          if (!locked[r][c] && grid[r][c] === 0 && _candidates(grid, r, c).includes(digit)) {
+            cells.push(c);
+          }
+        }
+        if (cells.length === 1) {
+          return { r, c: cells[0], value: digit, type: 'hidden', group: 'row', groupIdx: r };
+        }
+      }
 
-    return { row: r, col: c, value, isNakedSingle, rowUsed, colUsed, boxUsed };
+      // По столбцам
+      for (let c = 0; c < 9; c++) {
+        const cells = [];
+        for (let r = 0; r < 9; r++) {
+          if (!locked[r][c] && grid[r][c] === 0 && _candidates(grid, r, c).includes(digit)) {
+            cells.push(r);
+          }
+        }
+        if (cells.length === 1) {
+          return { r: cells[0], c, value: digit, type: 'hidden', group: 'col', groupIdx: c };
+        }
+      }
+
+      // По блокам 3×3
+      for (let br = 0; br < 3; br++) {
+        for (let bc = 0; bc < 3; bc++) {
+          const cells = [];
+          for (let dr = 0; dr < 3; dr++) {
+            for (let dc = 0; dc < 3; dc++) {
+              const r = br * 3 + dr, c = bc * 3 + dc;
+              if (!locked[r][c] && grid[r][c] === 0 && _candidates(grid, r, c).includes(digit)) {
+                cells.push([r, c]);
+              }
+            }
+          }
+          if (cells.length === 1) {
+            return { r: cells[0][0], c: cells[0][1], value: digit, type: 'hidden', group: 'box', groupIdx: br * 3 + bc };
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  function getHint(board) {
+    const { grid, locked } = board;
+
+    const naked = _findNakedSingle(grid, locked);
+    if (naked) {
+      const { r, c, value } = naked;
+      return {
+        row: r, col: c, value,
+        type: 'naked',
+        rowUsed: [..._usedInRow(grid, r)].sort((a, b) => a - b),
+        colUsed: [..._usedInCol(grid, c)].sort((a, b) => a - b),
+        boxUsed: [..._usedInBox(grid, r, c)].sort((a, b) => a - b),
+      };
+    }
+
+    const hidden = _findHiddenSingle(grid, locked);
+    if (hidden) {
+      const { r, c, value, group } = hidden;
+      return { row: r, col: c, value, type: 'hidden', group };
+    }
+
+    return null;
   }
 
   return { getHint };
