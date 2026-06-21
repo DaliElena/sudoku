@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sudoku-v2';
+const CACHE_NAME = 'sudoku-v4';
 const BASE = self.registration.scope;
 const ASSETS = [
   BASE,
@@ -7,6 +7,7 @@ const ASSETS = [
   BASE + 'css/themes.css',
   BASE + 'css/board.css',
   BASE + 'css/ui.css',
+  BASE + 'js/whatsnew.js',
   BASE + 'js/i18n.js',
   BASE + 'js/settings.js',
   BASE + 'js/generator.js',
