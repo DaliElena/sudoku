@@ -331,6 +331,14 @@
   font-weight: 600;
 }
 
+.settings-panel__version {
+  margin-top: var(--gap-md);
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  opacity: 0.5;
+}
+
 .toggle-switch {
   position: relative;
   display: inline-block;

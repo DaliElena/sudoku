@@ -151,6 +151,8 @@ const Settings = (() => {
         <button class="lang-btn" data-lang="ru">RU</button>
         <button class="lang-btn" data-lang="en">EN</button>
       </div>
+
+      <p class="settings-panel__version">v${WhatsNew.currentVersion()}</p>
     `;
 
     overlay.appendChild(panel);

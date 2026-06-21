@@ -57,11 +57,7 @@ const WhatsNew = (() => {
     const toast = _buildToast();
     document.body.appendChild(toast);
 
-    // Auto-dismiss after 12 s
-    setTimeout(() => {
-      if (toast.isConnected) _dismiss(toast);
-    }, 12000);
   }
 
-  return { check };
+  return { check, currentVersion: () => CURRENT_VERSION };
 })();
