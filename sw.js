@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sudoku-v4';
+const CACHE_NAME = 'sudoku-v5';
 const BASE = self.registration.scope;
 const ASSETS = [
   BASE,

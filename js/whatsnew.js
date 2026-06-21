@@ -1,5 +1,5 @@
 const WhatsNew = (() => {
-  const CURRENT_VERSION = '1.1.1';
+  const CURRENT_VERSION = '1.1.2';
   const STORAGE_KEY = 'sudoku-seen-version';
 
   const NOTES = {
