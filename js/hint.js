@@ -28,33 +28,38 @@ const Hint = (() => {
     return [1,2,3,4,5,6,7,8,9].filter(n => !used.has(n));
   }
 
-  // Возвращает наиболее «объяснимую» пустую клетку и почему туда идёт нужная цифра.
-  // Приоритет: naked single (только один кандидат) → иначе просто подтверждаем правильную цифру.
+  // Возвращает наиболее «объяснимую» пустую клетку.
+  // Приоритет: naked single (ровно 1 кандидат) → иначе любая пустая клетка.
+  // nakedSingle=true означает, что объяснение через занятые числа корректно.
   function getHint(board) {
     const { grid, solution, locked } = board;
-    let best = null;
-    let bestCount = Infinity;
+    let nakedSingle = null;
+    let anyEmpty = null;
 
     for (let r = 0; r < 9; r++) {
       for (let c = 0; c < 9; c++) {
         if (locked[r][c] || grid[r][c] !== 0) continue;
         const cands = _candidates(grid, r, c);
-        if (cands.length < bestCount) {
-          bestCount = cands.length;
-          best = { r, c, cands };
+        if (cands.length === 1 && !nakedSingle) {
+          nakedSingle = { r, c };
+        }
+        if (!anyEmpty) {
+          anyEmpty = { r, c };
         }
       }
     }
 
-    if (!best) return null;
+    const target = nakedSingle || anyEmpty;
+    if (!target) return null;
 
-    const { r, c } = best;
+    const { r, c } = target;
     const value = solution[r][c];
+    const isNakedSingle = !!nakedSingle;
     const rowUsed = [..._usedInRow(grid, r)].sort((a,b)=>a-b);
     const colUsed = [..._usedInCol(grid, c)].sort((a,b)=>a-b);
     const boxUsed = [..._usedInBox(grid, r, c)].sort((a,b)=>a-b);
 
-    return { row: r, col: c, value, rowUsed, colUsed, boxUsed };
+    return { row: r, col: c, value, isNakedSingle, rowUsed, colUsed, boxUsed };
   }
 
   return { getHint };

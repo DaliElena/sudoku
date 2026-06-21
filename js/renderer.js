@@ -221,12 +221,12 @@ class Renderer {
         <span class="hint-panel__title">${I18n.t('hint')}</span>
       </div>
       <div class="hint-panel__body">
-        <div class="hint-panel__answer">${I18n.t('hintExplain')} <strong>${hint.value}</strong></div>
-        <div class="hint-panel__reason">
+        <div class="hint-panel__answer">${hint.isNakedSingle ? I18n.t('hintExplain') : I18n.t('hintAnswer')} <strong>${hint.value}</strong></div>
+        ${hint.isNakedSingle ? `<div class="hint-panel__reason">
           ${tags(hint.rowUsed, I18n.t('hintRow'))}
           ${tags(hint.colUsed, I18n.t('hintCol'))}
           ${tags(hint.boxUsed, I18n.t('hintBox'))}
-        </div>
+        </div>` : ''}
       </div>
       <button class="hint-panel__close" id="hint-close-btn">${I18n.t('hintClose')}</button>`;
 

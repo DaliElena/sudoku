@@ -52,10 +52,12 @@ const I18n = (() => {
       hintRow: 'в строке',
       hintCol: 'в столбце',
       hintBox: 'в блоке',
-      hintExplain: 'Здесь можно поставить только',
+      hintExplain: 'Здесь может быть только',
+      hintAnswer: 'Правильная цифра здесь —',
       hintBecause: 'Цифры',
       hintAlready: 'уже заняты',
       hintClose: 'Понятно',
+      rotatePlease: 'Пожалуйста, поверните устройство',
     },
     en: {
       title: 'Sudoku',
@@ -108,9 +110,11 @@ const I18n = (() => {
       hintCol: 'in the column',
       hintBox: 'in the box',
       hintExplain: 'Only one digit fits here:',
+      hintAnswer: 'The correct digit here is',
       hintBecause: 'Digits',
       hintAlready: 'are already taken',
       hintClose: 'Got it',
+      rotatePlease: 'Please rotate your device',
     },
   };
 
